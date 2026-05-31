@@ -24,9 +24,23 @@ self.addEventListener('activate', function(e) {
 });
 
 self.addEventListener('fetch', function(e) {
-    e.respondWith(
-        caches.match(e.request).then(function(cached) {
-            return cached || fetch(e.request);
-        })
-    );
+    // Network first for HTML — always gets latest version
+    if (e.request.url.endsWith('.html') || e.request.url.endsWith('/')) {
+        e.respondWith(
+            fetch(e.request).then(function(response) {
+                var copy = response.clone();
+                caches.open(CACHE).then(function(c) { c.put(e.request, copy); });
+                return response;
+            }).catch(function() {
+                return caches.match(e.request);
+            })
+        );
+    } else {
+        // Cache first for icons/manifest
+        e.respondWith(
+            caches.match(e.request).then(function(cached) {
+                return cached || fetch(e.request);
+            })
+        );
+    }
 });
