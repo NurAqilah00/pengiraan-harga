@@ -1,0 +1,1103 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengiraan Harga</title>
+    <meta name="theme-color" content="#1E3A8A">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Pengiraan">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <style>
+body {
+    font-family: sans-serif;
+    font-size: 14px;
+    background-color: #F0F9FF;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #000000;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 10px;
+    text-transform: uppercase;
+}
+
+
+.container {
+    /* max-width: 400px; */
+    margin:  auto;
+    padding: 20px;
+    background-color: #1E3A8A;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+label {
+    width: 120px;
+    flex-shrink: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+input, select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    background-color: #F5F5F5;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+
+.btn-grad {
+  background-image: linear-gradient(to right, #00d2ff 0%, #3a7bd5 51%, #00d2ff 100%);
+  margin: 20px 0 0px auto;
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: black;
+  box-shadow: 0 0 20px #221e1e1b;
+  border-radius: 10px;
+  display: block;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-grad:hover {
+  background-position: right center;
+  color: #000000;
+  font-weight: bold;
+}
+
+.table-scroll-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+table {
+    width: 100%;
+    min-width: 600px;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#seksyen-modal table,
+#print-area.seksyen-modal table {
+    min-width: unset;
+}
+
+/* table, th, td {
+    border: 1px solid #000000;
+} */
+
+#seksyen-harga table td:nth-child(1),
+#print-area.seksyen-harga table td:nth-child(1) {
+    text-transform: capitalize;
+}
+
+th, td {
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 14px;
+}
+
+td:nth-child(5),
+#jumlahTotal {
+    white-space: nowrap;
+}
+
+th {
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+th {
+    background-color: #1E3A8A;
+    color: white;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #e2e8f0;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f1f5f9;
+}
+
+.total-row td {
+    font-weight: 700;
+    font-size: 14px;
+    background-color: #1E3A8A;
+    color: white;
+    padding: 10px 12px;
+}
+
+.bolak, .balik {
+    background-color: #578FCA;
+    text-align: center;
+    color: white;
+}
+.btn-clear {
+    background-image: linear-gradient(to right, #870000 0%, #190A05 51%, #870000 100%);
+    margin: 10px 0;
+    padding: 15px 24px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    margin-left: auto;
+
+}
+
+.btn-clear:hover {
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-edit, .btn-delete, .btn-save, .btn-cancel {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-right: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-edit {
+    background-color: #4E71FF;
+    color: white;
+}
+
+.btn-delete {
+    background-color: #870000;
+    color: white;
+}
+
+.btn-save {
+    background-color: #22C55E;
+    color: white;
+}
+
+.btn-cancel {
+    background-color: #94A3B8;
+    color: white;
+}
+
+.inline-input {
+    width: 100%;
+    padding: 4px 6px;
+    border: 1.5px solid #4E71FF;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+.section-divider {
+    position: relative;
+    margin: 48px 0 40px;
+    height: 64px;
+    overflow: hidden;
+}
+
+.section-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #CBD5E1;
+    transform: translateY(-50%);
+}
+
+.tractor-icon {
+    height: 68px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: driveAcross 5s linear infinite;
+}
+
+.tractor-icon:hover {
+    animation-play-state: paused;
+    cursor: pointer;
+}
+
+@keyframes driveAcross {
+    from { right: -64px; }
+    to   { right: 100%; }
+}
+
+
+.page-wrap {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 600px) {
+    body {
+        padding: 28px 32px;
+    }
+    label {
+        width: 140px;
+    }
+}
+
+@media (min-width: 900px) {
+    body {
+        padding: 40px;
+    }
+}
+
+#print-area { display: none; }
+
+@page {
+    size: A4 portrait;
+    margin: 15mm 12mm;
+}
+
+@media print {
+    body > *:not(#print-area) { display: none !important; }
+    #print-area { display: block !important; }
+
+    /* Sembunyikan elemen interaktif & hiasan */
+    .container,
+    .btn-grad,
+    .btn-clear,
+    .btn-edit,
+    .btn-delete,
+    .btn-save,
+    .btn-cancel,
+    .section-divider,
+    #customConfirm,
+    #customAlert,
+    br {
+        display: none !important;
+    }
+
+
+    body {
+        background: white;
+        padding: 0;
+        margin: 0;
+        font-size: 11px;
+        color: black;
+    }
+
+    tfoot {
+        display: table-row-group;
+    }
+
+    h1 {
+        font-size: 16px;
+        font-weight: 700;
+        margin: 0 0 10px 0;
+        color: black;
+        text-align: left;
+    }
+
+    /* Table: hitam putih, lebar penuh A4 */
+    .table-scroll-wrapper {
+        border-radius: 0;
+        box-shadow: none;
+        overflow: visible;
+        margin-top: 4px;
+    }
+
+    table {
+        width: calc(100% - 1px);
+        border-collapse: separate;
+        border-spacing: 0;
+        border-left: 1px solid #555;
+        border-top: 1px solid #555;
+        border-right: none;
+        border-bottom: none;
+        box-shadow: none;
+        border-radius: 0;
+        margin-top: 0;
+        table-layout: fixed;
+        background: white;
+    }
+
+    th, td {
+        border-right: 1px solid #555;
+        border-bottom: 1px solid #555;
+        border-left: none;
+        border-top: none;
+        padding: 5px 7px;
+        font-size: 11px;
+        color: black;
+        background: white !important;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+    }
+
+    th {
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0;
+    }
+
+    /* Hilangkan warna baris selang-seli */
+    tbody tr:nth-child(odd),
+    tbody tr:nth-child(even) {
+        background: white !important;
+    }
+
+    /* Row header BOLAK/BALIK */
+    .bolak, .balik {
+        background: #e8e8e8 !important;
+        color: black !important;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    /* Row jumlah - bold border atas je */
+    .total-row td {
+        background: white !important;
+        color: black !important;
+        font-weight: 700;
+        font-size: 11px;
+        padding: 5px 7px;
+        border-top: 2px solid #333;
+    }
+
+    /* Jangan potong baris di tengah halaman */
+    tr { page-break-inside: avoid; break-inside: avoid; }
+
+    #seksyen-harga table th:nth-child(1), #seksyen-harga table td:nth-child(1),
+    #print-area.seksyen-harga table th:nth-child(1), #print-area.seksyen-harga table td:nth-child(1) { width: 20%; }
+
+    #seksyen-harga table th:nth-child(2), #seksyen-harga table td:nth-child(2),
+    #print-area.seksyen-harga table th:nth-child(2), #print-area.seksyen-harga table td:nth-child(2) { width: 10%; }
+
+    #seksyen-harga table th:nth-child(3), #seksyen-harga table td:nth-child(3),
+    #print-area.seksyen-harga table th:nth-child(3), #print-area.seksyen-harga table td:nth-child(3) { width: 38%; }
+
+    #seksyen-harga table th:nth-child(4), #seksyen-harga table td:nth-child(4),
+    #print-area.seksyen-harga table th:nth-child(4), #print-area.seksyen-harga table td:nth-child(4) { width: 16%; }
+
+    #seksyen-harga table th:nth-child(5), #seksyen-harga table td:nth-child(5),
+    #print-area.seksyen-harga table th:nth-child(5), #print-area.seksyen-harga table td:nth-child(5) { width: 16%; }
+
+    #seksyen-modal table th:nth-child(1), #seksyen-modal table td:nth-child(1),
+    #print-area.seksyen-modal table th:nth-child(1), #print-area.seksyen-modal table td:nth-child(1) { width: 70%; }
+
+    #seksyen-modal table th:nth-child(2), #seksyen-modal table td:nth-child(2),
+    #print-area.seksyen-modal table th:nth-child(2), #print-area.seksyen-modal table td:nth-child(2) { width: 30%; }
+}
+
+</style>
+
+</head>
+<body>
+<div class="page-wrap">
+    <div id="seksyen-harga">
+    <h1>Pengiraan Harga</h1>
+
+    <div class="container">
+        <div class="form-row">
+            <label for="jenisKadar">Jenis Kadar</label>
+            <select id="jenisKadar" name="jenisKadar" onchange="handleJenisKadar(this.value)">
+                <option value="">-- Pilih jenis kadar --</option>
+                <option value="bolak">Bolak</option>
+                <option value="balik">Balik</option>
+            </select>
+        </div>
+
+        <div id="kadarBolakGroup" style="display: none;">
+            <div class="form-row">
+                <label for="kadarBolak">Kadar Bolak</label>
+                <input type="number" id="kadarBolak" step="0.01">
+            </div>
+        </div>
+
+        <div id="kadarBalikGroup" style="display: none;">
+            <div class="form-row">
+                <label for="kadarBalik">Kadar Balik</label>
+                <input type="number" id="kadarBalik" step="0.01">
+            </div>
+        </div>
+
+        <form id="priceForm" novalidate>
+            <div class="form-row">
+                <label for="nama">Nama</label>
+                <input type="text" id="nama" name="nama" required>
+            </div>
+
+            <div class="form-row">
+                <label for="quantity">Kuantiti</label>
+                <input type="number" id="quantity" name="quantity" step="any" required>
+            </div>
+
+            <div class="form-row">
+                <label for="catatan">Catatan</label>
+                <input type="text" id="catatan" name="catatan">
+            </div>
+
+            <button type="submit" class="btn-grad" style="margin-top: 12px;">Tambah</button>
+        </form>
+    </div>
+
+    <br>
+    <button class="btn-clear" onclick="clearPriceTable()">Padam Semua</button>
+    <div class="table-scroll-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>Kuantiti</th>
+                <th>Catatan</th>
+                <th>Kadar</th>
+                <th>Jumlah</th>
+                <th>Lain-lain</th>
+            </tr>
+        </thead>
+        <tbody id="priceTableBody">
+            <tr>
+                <td colspan="6" class="bolak">BOLAK</td>
+            </tr>
+            <tr id="balikHeaderRow">
+                <td colspan="6" class="balik">BALIK</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr class="total-row">
+                <td>Jumlah</td>
+                <td id="kuantitiTotal">0</td>
+                <td colspan="2"></td>
+                <td id="jumlahTotal">RM 0.00</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+    </div>
+
+    <br>
+    <button class="btn-grad" onclick="printHarga()">Cetak ke PDF</button>
+    </div>
+
+    <div class="section-divider">
+        <img src="data:image/png;base64,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" class="tractor-icon" alt="tractor">
+    </div>
+
+    <div id="seksyen-modal">
+    <h1>Pengiraan Modal</h1>
+
+    <div class="container">
+        <form id="modalForm" novalidate>
+            <div class="form-row">
+                <label for="perkara">Perkara</label>
+                <input type="text" id="perkara" name="perkara" required>
+            </div>
+
+            <div class="form-row">
+                <label for="harga">Harga</label>
+                <input type="number" id="harga" name="harga" step="0.01" required>
+            </div>
+
+            <button type="submit" class="btn-grad">Tambah</button>
+        </form>
+    </div>
+
+    <br>
+    <button class="btn-clear" onclick="clearModalTable()">Padam Semua</button>
+    <div class="table-scroll-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Perkara</th>
+                <th>Harga</th>
+                <th>Lain-lain</th>
+            </tr>
+        </thead>
+        <tbody id="modalTableBody">
+        </tbody>
+        <tfoot>
+            <tr class="total-row">
+                <td>Jumlah Keseluruhan</td>
+                <td id="modalJumlahTotal">RM 0.00</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+    </div>
+
+    <br>
+    <button class="btn-grad" onclick="printModal()">Cetak ke PDF</button>
+    </div>
+</div>
+
+<div id="print-area"></div>
+
+    <!-- Custom Confirm Modal -->
+    <div id="customConfirm" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
+        <div style="background:#fff; border-radius:12px; padding:32px 28px 24px; max-width:340px; width:90%; box-shadow:0 8px 32px rgba(0,0,0,0.2); text-align:center; margin:16px;">
+            <div style="font-size:36px; margin-bottom:12px;">⚠️</div>
+            <p style="color:#1E3A8A; font-weight:600; font-size:15px; margin:0 0 24px;">Perhatian: tindakan ini akan memadam semua data. Pastikan anda simpan sebagai <strong>PDF</strong> terlebih dahulu sebelum teruskan.</p>
+            <div style="display:flex; gap:12px; justify-content:center;">
+                <button onclick="document.getElementById('customConfirm').style.display='none'"
+                    style="background:#94A3B8; color:#fff; border:none; border-radius:8px; padding:10px 28px; font-size:14px; font-weight:700; cursor:pointer; text-transform:uppercase;">
+                    Batal
+                </button>
+                <button id="confirmPadamBtn"
+                    style="background:#870000; color:#fff; border:none; border-radius:8px; padding:10px 28px; font-size:14px; font-weight:700; cursor:pointer; text-transform:uppercase;">
+                    Padam
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Alert Modal -->
+    <div id="customAlert" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
+        <div style="background:#fff; border-radius:12px; padding:32px 28px 24px; max-width:320px; width:90%; box-shadow:0 8px 32px rgba(0,0,0,0.2); text-align:center; margin: 16px;">
+            <div style="font-size:36px; margin-bottom:12px;">⚠️</div>
+            <p id="customAlertMsg" style="color:#1E3A8A; font-weight:600; font-size:15px; margin:0 0 24px;"></p>
+            <button onclick="document.getElementById('customAlert').style.display='none'"
+                style="background:linear-gradient(to right,#00d2ff,#3a7bd5); color:#fff; border:none; border-radius:8px; padding:10px 32px; font-size:14px; font-weight:700; cursor:pointer; text-transform:uppercase;">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function handleJenisKadar(val) {
+            document.getElementById('kadarBolakGroup').style.display = val === 'bolak' ? 'block' : 'none';
+            document.getElementById('kadarBalikGroup').style.display = val === 'balik' ? 'block' : 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('input[type="number"]').forEach(function(input) {
+                input.addEventListener('keydown', function(e) {
+                    if (['e', 'E', '+', '-'].includes(e.key)) e.preventDefault();
+                });
+            });
+
+        });
+
+        function showAlert(msg) {
+            document.getElementById('customAlertMsg').textContent = msg;
+            document.getElementById('customAlert').style.display = 'flex';
+        }
+
+        function updateTotal() {
+            const rows = document.querySelectorAll('#priceTableBody tr');
+            let total = 0;
+            let totalKuantiti = 0;
+            rows.forEach(function(row) {
+                const cells = row.querySelectorAll('td');
+                if (cells.length === 6) {
+                    const qty = parseFloat(cells[1].textContent);
+                    if (!isNaN(qty)) totalKuantiti += qty;
+                    const val = parseFloat(cells[4].textContent.replace('RM ', ''));
+                    if (!isNaN(val)) total += val;
+                }
+            });
+            document.getElementById('kuantitiTotal').textContent = totalKuantiti % 1 === 0 ? totalKuantiti : totalKuantiti.toFixed(2);
+            document.getElementById('jumlahTotal').textContent = 'RM ' + total.toFixed(2);
+            saveToStorage();
+        }
+
+        function addActionButtons(row) {
+            const actionCell = document.createElement('td');
+
+            const editBtn = document.createElement('button');
+            editBtn.innerHTML = '✎';
+            editBtn.className = 'btn-edit';
+            editBtn.title = 'Edit';
+            editBtn.onclick = function() { makeRowEditable(row); };
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.innerHTML = '✖';
+            deleteBtn.className = 'btn-delete';
+            deleteBtn.title = 'Padam';
+            deleteBtn.onclick = function() { row.remove(); updateTotal(); };
+
+            actionCell.appendChild(editBtn);
+            actionCell.appendChild(deleteBtn);
+            row.appendChild(actionCell);
+        }
+
+        function makeRowEditable(row) {
+            const cells = row.querySelectorAll('td');
+            const editableIndexes = [0, 1, 2, 3];
+            const originalValues = {};
+
+            editableIndexes.forEach(function(i) {
+                originalValues[i] = cells[i].textContent;
+                const input = document.createElement('input');
+                input.value = cells[i].textContent;
+                input.className = 'inline-input';
+                cells[i].textContent = '';
+                cells[i].appendChild(input);
+            });
+
+            // Jumlah — strip "RM " so user edits just the number
+            originalValues[4] = cells[4].textContent;
+            const jumlahInput = document.createElement('input');
+            jumlahInput.value = cells[4].textContent.replace('RM ', '');
+            jumlahInput.className = 'inline-input';
+            jumlahInput.type = 'number';
+            jumlahInput.step = '0.01';
+            cells[4].textContent = '';
+            cells[4].appendChild(jumlahInput);
+
+            const actionCell = cells[5];
+            actionCell.innerHTML = '';
+
+            const saveBtn = document.createElement('button');
+            saveBtn.innerHTML = '✔';
+            saveBtn.className = 'btn-save';
+            saveBtn.title = 'Simpan';
+            saveBtn.onclick = function() {
+                editableIndexes.forEach(function(i) {
+                    cells[i].textContent = cells[i].querySelector('input').value;
+                });
+                const jumlahVal = parseFloat(cells[4].querySelector('input').value);
+                cells[4].textContent = 'RM ' + jumlahVal.toFixed(2);
+                restoreActionButtons(row);
+                updateTotal();
+            };
+
+            const cancelBtn = document.createElement('button');
+            cancelBtn.innerHTML = '🗙';
+            cancelBtn.className = 'btn-cancel';
+            cancelBtn.title = 'Batal';
+            cancelBtn.onclick = function() {
+                editableIndexes.forEach(function(i) {
+                    cells[i].textContent = originalValues[i];
+                });
+                cells[4].textContent = originalValues[4];
+                restoreActionButtons(row);
+            };
+
+            actionCell.appendChild(saveBtn);
+            actionCell.appendChild(cancelBtn);
+        }
+
+        function restoreActionButtons(row) {
+            const actionCell = row.querySelector('td:last-child');
+            actionCell.innerHTML = '';
+
+            const editBtn = document.createElement('button');
+            editBtn.innerHTML = '✎';
+            editBtn.className = 'btn-edit';
+            editBtn.title = 'Edit';
+            editBtn.onclick = function() { makeRowEditable(row); };
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.innerHTML = '✖';
+            deleteBtn.className = 'btn-delete';
+            deleteBtn.title = 'Padam';
+            deleteBtn.onclick = function() { row.remove(); updateTotal(); };
+
+            actionCell.appendChild(editBtn);
+            actionCell.appendChild(deleteBtn);
+        }
+
+        document.getElementById('priceForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const nama = document.getElementById('nama').value;
+            const quantity = parseFloat(document.getElementById('quantity').value);
+            const catatan = document.getElementById('catatan').value;
+            const jenisKadar = document.getElementById('jenisKadar').value;
+            const kadarBolak = parseFloat(document.getElementById('kadarBolak').value);
+            const kadarBalik = parseFloat(document.getElementById('kadarBalik').value);
+            const kadar = jenisKadar === 'bolak' ? kadarBolak : kadarBalik;
+
+            if (!nama) {
+                showAlert('Sila lengkapkan bahagian Nama ya.');
+                return;
+            }
+
+            if (!document.getElementById('quantity').value || isNaN(quantity)) {
+                showAlert('Sila lengkapkan bahagian Kuantiti ya.');
+                return;
+            }
+
+            if (jenisKadar === '') {
+                showAlert('Kena pilih dulu ni kadar untuk bolak ke balik?');
+                return;
+            }
+
+            if (isNaN(kadar)) {
+                showAlert('Sila masukkan kadar ' + (jenisKadar === 'bolak' ? 'Bolak' : 'Balik') + ' terlebih dahulu.');
+                return;
+            }
+
+            const totalPrice = quantity * kadar;
+            const newRow = document.createElement('tr');
+
+            [nama, quantity, catatan, kadar, 'RM ' + totalPrice.toFixed(2)].forEach(function(value) {
+                const cell = document.createElement('td');
+                cell.textContent = value;
+                newRow.appendChild(cell);
+            });
+
+            addActionButtons(newRow);
+
+            if (jenisKadar === 'bolak') {
+
+                document.getElementById('balikHeaderRow').before(newRow);
+            } else {
+                document.getElementById('priceTableBody').appendChild(newRow);
+            }
+
+            document.getElementById('priceForm').reset();
+            updateTotal();
+        });
+        // --- Pengiraan Modal ---
+
+        function updateModalTotal() {
+            const rows = document.querySelectorAll('#modalTableBody tr');
+            let total = 0;
+            rows.forEach(function(row) {
+                const cells = row.querySelectorAll('td');
+                if (cells.length === 3) {
+                    const val = parseFloat(cells[1].textContent.replace('RM ', ''));
+                    if (!isNaN(val)) total += val;
+                }
+            });
+            document.getElementById('modalJumlahTotal').textContent = 'RM ' + total.toFixed(2);
+            saveToStorage();
+        }
+
+        function addModalActionButtons(row) {
+            const actionCell = document.createElement('td');
+
+            const editBtn = document.createElement('button');
+            editBtn.innerHTML = '✎';
+            editBtn.className = 'btn-edit';
+            editBtn.title = 'Edit';
+            editBtn.onclick = function() { makeModalRowEditable(row); };
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.innerHTML = '✖';
+            deleteBtn.className = 'btn-delete';
+            deleteBtn.title = 'Padam';
+            deleteBtn.onclick = function() { row.remove(); updateModalTotal(); };
+
+            actionCell.appendChild(editBtn);
+            actionCell.appendChild(deleteBtn);
+            row.appendChild(actionCell);
+        }
+
+        function makeModalRowEditable(row) {
+            const cells = row.querySelectorAll('td');
+            const originalValues = { 0: cells[0].textContent, 1: cells[1].textContent };
+
+            const perkaraInput = document.createElement('input');
+            perkaraInput.value = cells[0].textContent;
+            perkaraInput.className = 'inline-input';
+            cells[0].textContent = '';
+            cells[0].appendChild(perkaraInput);
+
+            const hargaInput = document.createElement('input');
+            hargaInput.value = cells[1].textContent.replace('RM ', '');
+            hargaInput.className = 'inline-input';
+            hargaInput.type = 'number';
+            hargaInput.step = '0.01';
+            cells[1].textContent = '';
+            cells[1].appendChild(hargaInput);
+
+            const actionCell = cells[2];
+            actionCell.innerHTML = '';
+
+            const saveBtn = document.createElement('button');
+            saveBtn.innerHTML = '✔';
+            saveBtn.className = 'btn-save';
+            saveBtn.title = 'Simpan';
+            saveBtn.onclick = function() {
+                cells[0].textContent = cells[0].querySelector('input').value;
+                const hargaVal = parseFloat(cells[1].querySelector('input').value);
+                cells[1].textContent = 'RM ' + hargaVal.toFixed(2);
+                restoreModalActionButtons(row);
+                updateModalTotal();
+            };
+
+            const cancelBtn = document.createElement('button');
+            cancelBtn.innerHTML = '🗙';
+            cancelBtn.className = 'btn-cancel';
+            cancelBtn.title = 'Batal';
+            cancelBtn.onclick = function() {
+                cells[0].textContent = originalValues[0];
+                cells[1].textContent = originalValues[1];
+                restoreModalActionButtons(row);
+            };
+
+            actionCell.appendChild(saveBtn);
+            actionCell.appendChild(cancelBtn);
+        }
+
+        function restoreModalActionButtons(row) {
+            const actionCell = row.querySelector('td:last-child');
+            actionCell.innerHTML = '';
+
+            const editBtn = document.createElement('button');
+            editBtn.innerHTML = '✎';
+            editBtn.className = 'btn-edit';
+            editBtn.title = 'Edit';
+            editBtn.onclick = function() { makeModalRowEditable(row); };
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.innerHTML = '✖';
+            deleteBtn.className = 'btn-delete';
+            deleteBtn.title = 'Padam';
+            deleteBtn.onclick = function() { row.remove(); updateModalTotal(); };
+
+            actionCell.appendChild(editBtn);
+            actionCell.appendChild(deleteBtn);
+        }
+
+        document.getElementById('modalForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const perkara = document.getElementById('perkara').value;
+            const harga = parseFloat(document.getElementById('harga').value);
+
+            if (!perkara) {
+                showAlert('Sila lengkapkan bahagian Perkara ya.');
+                return;
+            }
+
+            if (!document.getElementById('harga').value || isNaN(harga)) {
+                showAlert('Sila lengkapkan bahagian Harga ya.');
+                return;
+            }
+
+            const newRow = document.createElement('tr');
+            [perkara, 'RM ' + harga.toFixed(2)].forEach(function(value) {
+                const cell = document.createElement('td');
+                cell.textContent = value;
+                newRow.appendChild(cell);
+            });
+
+            addModalActionButtons(newRow);
+            document.getElementById('modalTableBody').appendChild(newRow);
+            document.getElementById('modalForm').reset();
+            updateModalTotal();
+        });
+
+        function saveToStorage() {
+            const priceRows = [];
+            let pastBalik = false;
+            document.querySelectorAll('#priceTableBody tr').forEach(function(row) {
+                if (row.id === 'balikHeaderRow') { pastBalik = true; return; }
+                const cells = row.querySelectorAll('td');
+                if (cells.length === 6) {
+                    priceRows.push({
+                        nama: cells[0].textContent,
+                        kuantiti: cells[1].textContent,
+                        catatan: cells[2].textContent,
+                        kadar: cells[3].textContent,
+                        jumlah: cells[4].textContent,
+                        jenis: pastBalik ? 'balik' : 'bolak'
+                    });
+                }
+            });
+
+            const modalRows = [];
+            document.querySelectorAll('#modalTableBody tr').forEach(function(row) {
+                const cells = row.querySelectorAll('td');
+                if (cells.length === 3) {
+                    modalRows.push({ perkara: cells[0].textContent, harga: cells[1].textContent });
+                }
+            });
+
+            try { localStorage.setItem('pengiraanHargaData', JSON.stringify({ priceRows, modalRows })); } catch(e) {}
+        }
+
+        function loadFromStorage() {
+            let saved;
+            try { saved = localStorage.getItem('pengiraanHargaData'); } catch(e) { return; }
+            if (!saved) return;
+            let data;
+            try { data = JSON.parse(saved); } catch (e) { try { localStorage.removeItem('pengiraanHargaData'); } catch(e2) {} return; }
+
+            if (data.priceRows) {
+                const balikHeaderRow = document.getElementById('balikHeaderRow');
+                data.priceRows.forEach(function(r) {
+                    try {
+                        const newRow = document.createElement('tr');
+                        [r.nama, r.kuantiti, r.catatan, r.kadar, r.jumlah].forEach(function(value) {
+                            const cell = document.createElement('td');
+                            cell.textContent = value;
+                            newRow.appendChild(cell);
+                        });
+                        addActionButtons(newRow);
+                        if (r.jenis === 'bolak' && balikHeaderRow) {
+                            balikHeaderRow.before(newRow);
+                        } else {
+                            document.getElementById('priceTableBody').appendChild(newRow);
+                        }
+                    } catch (e) {}
+                });
+                updateTotal();
+            }
+
+            if (data.modalRows) {
+                data.modalRows.forEach(function(r) {
+                    try {
+                        const newRow = document.createElement('tr');
+                        [r.perkara, r.harga].forEach(function(value) {
+                            const cell = document.createElement('td');
+                            cell.textContent = value;
+                            newRow.appendChild(cell);
+                        });
+                        addModalActionButtons(newRow);
+                        document.getElementById('modalTableBody').appendChild(newRow);
+                    } catch (e) {}
+                });
+                updateModalTotal();
+            }
+        }
+
+        var pendingClearAction = null;
+
+        function showConfirm(action) {
+            pendingClearAction = action;
+            document.getElementById('customConfirm').style.display = 'flex';
+        }
+
+        document.getElementById('confirmPadamBtn').addEventListener('click', function() {
+            document.getElementById('customConfirm').style.display = 'none';
+            if (pendingClearAction) { pendingClearAction(); pendingClearAction = null; }
+        });
+
+        function clearPriceTable() {
+            showConfirm(function() {
+                const tbody = document.getElementById('priceTableBody');
+                Array.from(tbody.querySelectorAll('tr')).forEach(function(row) {
+                    if (row.id !== 'balikHeaderRow' && !row.querySelector('.bolak') && !row.querySelector('.balik')) row.remove();
+                });
+                updateTotal();
+            });
+        }
+
+        function clearModalTable() {
+            showConfirm(function() {
+                document.getElementById('modalTableBody').innerHTML = '';
+                updateModalTotal();
+            });
+        }
+
+        loadFromStorage();
+
+        function getTarikh() {
+            const d = new Date();
+            const day = String(d.getDate()).padStart(2, '0');
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const year = d.getFullYear();
+            return day + '-' + month + '-' + year;
+        }
+
+        function showPdfError() {
+            var el = document.getElementById('customAlertMsg');
+            el.innerHTML = 'PDF tidak berjaya dicetak.<br><br>Sila pastikan anda mempunyai akses internet, atau gunakan <strong>Google Chrome</strong> / <strong>Safari</strong> / <strong>Microsoft Edge</strong>.';
+            document.getElementById('customAlert').style.display = 'flex';
+        }
+
+        function doPrint(sectionId, title) {
+            var asal = document.title;
+            var printArea = document.getElementById('print-area');
+            printArea.className = '';
+            printArea.innerHTML = document.getElementById(sectionId).innerHTML;
+            printArea.className = sectionId;
+
+            printArea.querySelectorAll('th:last-child, td:last-child:not(.bolak):not(.balik)').forEach(function(el) {
+                el.parentNode.removeChild(el);
+            });
+            printArea.querySelectorAll('td.bolak, td.balik').forEach(function(el) {
+                var cs = parseInt(el.getAttribute('colspan'));
+                if (cs > 1) el.setAttribute('colspan', cs - 1);
+            });
+            if (typeof window.print === 'function') {
+                setTimeout(function() {
+                    var dialogTriggered = false;
+                    var checkTimer = setTimeout(function() {
+                        if (!dialogTriggered) showPdfError();
+                    }, 50);
+
+                    window.addEventListener('beforeprint', function handler() {
+                        dialogTriggered = true;
+                        clearTimeout(checkTimer);
+                        window.removeEventListener('beforeprint', handler);
+                    });
+
+                    document.title = title;
+                    window.print();
+                    document.title = asal;
+                }, 300);
+            } else {
+                showPdfError();
+            }
+        }
+
+        function printHarga() {
+            doPrint('seksyen-harga', 'pengiraan_harga(' + getTarikh() + ')');
+        }
+
+        function printModal() {
+            doPrint('seksyen-modal', 'pengiraan_modal(' + getTarikh() + ')');
+        }
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('service-worker.js');
+            });
+        }
+    </script>
+</body>
+</html>
